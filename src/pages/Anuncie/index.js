@@ -1,16 +1,18 @@
+import Button from 'components/Button';
 import Header from 'components/Header';
 import { useSelector } from 'react-redux';
+import styles from './Anuncie.module.scss';
 
 export default function Anuncie() {
   const categorias = useSelector(state => state.categorias.map(({ nome, id }) => ({ nome, id })));
 
   return (
-    <div>
+    <div className={styles.container}>
       <Header
         titulo='Anuncie aqui!'
         descricao='Anuncie seu produto no melhor site do Brasil!'
       />
-      <form>
+      <form className={styles.formulario}>
         <input placeholder='Nome do produto' alt='nome do produto' />
         <input placeholder='Descrição do produto' alt='descrição do produto' />
         <input placeholder='URL da imagem do produto' alt='URL da imagem do produto' />
@@ -23,7 +25,9 @@ export default function Anuncie() {
           ))}
         </select>
         <input type='number' placeholder='Preço do produto' />
-        <button type='submit'> Cadastrar produto </button>
+        <Button type='submit'>
+          Cadastrar produto
+        </Button>
       </form>
     </div>
   )
