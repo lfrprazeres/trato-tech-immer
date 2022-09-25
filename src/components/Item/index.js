@@ -10,11 +10,12 @@ import {
 import {
   FaCartPlus
 } from 'react-icons/fa';
-import { mudarFavorito } from 'store/reducers/itens';
+import { mudarFavorito, mudarItem } from 'store/reducers/itens';
 import { useDispatch, useSelector } from 'react-redux';
 import { mudarCarrinho, mudarQuantidade } from 'store/reducers/carrinho';
 import classNames from 'classnames';
 import { useState } from 'react';
+import Input from 'components/Input';
 
 const iconeProps = {
   size: 24,
@@ -55,7 +56,13 @@ export default function Item(props) {
       ? <AiOutlineCheck
         {...iconeProps}
         className={styles['item-acao']}
-        onClick={() => setModoDeEdicao(false)}
+        onClick={() => {
+          setModoDeEdicao(false);
+          dispatch(mudarItem({
+            id,
+            item: { titulo: novoTitulo }
+          }));
+        }}
       />
       : <AiFillEdit
         {...iconeProps}
@@ -75,7 +82,7 @@ export default function Item(props) {
       <div className={styles['item-descricao']}>
         <div className={styles['item-titulo']}>
           {modoDeEdicao
-            ? <input
+            ? <Input
                 value={novoTitulo}
                 onChange={evento => setNovoTitulo(evento.target.value)}
               />
