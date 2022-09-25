@@ -12,6 +12,17 @@
     flex-direction: column;
     justify-content: space-between;
     flex: 1;
+    input {
+      border: none;
+      border-radius: 5px;
+      font-size: 20px;
+      outline: #1a95f0;
+      transition: .2s ease-in-out;
+      padding: 10px 20px;
+      &:focus {
+        outline: 2px solid #1a95f0;
+      }
+    }
   }
   &-titulo {
     padding: 16px 16px 0 16px;

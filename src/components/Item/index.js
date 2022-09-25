@@ -4,6 +4,8 @@ import {
   AiFillHeart,
   AiFillMinusCircle,
   AiFillPlusCircle,
+  AiOutlineCheck,
+  AiFillEdit
 } from 'react-icons/ai';
 import {
   FaCartPlus
@@ -12,6 +14,7 @@ import { mudarFavorito } from 'store/reducers/itens';
 import { useDispatch, useSelector } from 'react-redux';
 import { mudarCarrinho, mudarQuantidade } from 'store/reducers/carrinho';
 import classNames from 'classnames';
+import { useState } from 'react';
 
 const iconeProps = {
   size: 24,
@@ -34,6 +37,8 @@ export default function Item(props) {
     carrinho,
     quantidade,
   } = props;
+  const [modoDeEdicao, setModoDeEdicao] = useState(false);
+  const [novoTitulo, setNovoTitulo] = useState(titulo);
   const dispatch = useDispatch();
   const estaNoCarrinho = useSelector(state => state.carrinho.some(itemNoCarrinho => itemNoCarrinho.id === id));
 
@@ -45,6 +50,21 @@ export default function Item(props) {
     dispatch(mudarCarrinho(id));
   }
 
+  const componenteModoDeEdicao = <>
+    {modoDeEdicao
+      ? <AiOutlineCheck
+        {...iconeProps}
+        className={styles['item-acao']}
+        onClick={() => setModoDeEdicao(false)}
+      />
+      : <AiFillEdit
+        {...iconeProps}
+        className={styles['item-acao']}
+        onClick={() => setModoDeEdicao(true)}
+      />
+    }
+  </>
+
   return (
     <div className={classNames(styles.item, {
       [styles.itemNoCarrinho]: carrinho,
@@ -54,7 +74,13 @@ export default function Item(props) {
       </div>
       <div className={styles['item-descricao']}>
         <div className={styles['item-titulo']}>
-          <h2>{titulo}</h2>
+          {modoDeEdicao
+            ? <input
+                value={novoTitulo}
+                onChange={evento => setNovoTitulo(evento.target.value)}
+              />
+            : <h2>{titulo}</h2>
+          }
           <p>{descricao}</p>
         </div>
         <div className={styles['item-info']}>
@@ -73,7 +99,7 @@ export default function Item(props) {
                   <AiFillMinusCircle
                     {...quantidadeProps}
                     onClick={() => {
-                      if(quantidade >= 1) {
+                      if (quantidade >= 1) {
                         dispatch(mudarQuantidade({ id, quantidade: -1 }));
                       }
                     }}
@@ -85,12 +111,17 @@ export default function Item(props) {
                   />
                 </div>
               )
-              : (<FaCartPlus
-                {...iconeProps}
-                color={estaNoCarrinho ? '#1875E8' : iconeProps.color}
-                className={styles['item-acao']}
-                onClick={resolverCarrinho}
-              />)
+              : (
+                <>
+                  <FaCartPlus
+                    {...iconeProps}
+                    color={estaNoCarrinho ? '#1875E8' : iconeProps.color}
+                    className={styles['item-acao']}
+                    onClick={resolverCarrinho}
+                  />
+                  {componenteModoDeEdicao}
+                </>
+              )
             }
           </div>
         </div>
