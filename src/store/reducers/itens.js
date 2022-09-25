@@ -246,7 +246,8 @@ const itensSlice = createSlice({
       Object.assign(state[index], payload.item);
     },
     deletarItem: (state, { payload }) => {
-      console.log(payload);
+      const index = state.findIndex(item => item.id === payload);
+      state.splice(index, 1);
     }
   }
 });

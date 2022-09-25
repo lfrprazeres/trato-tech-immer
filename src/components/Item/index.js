@@ -15,7 +15,7 @@ import { deletarItem, mudarFavorito, mudarItem } from 'store/reducers/itens';
 import { useDispatch, useSelector } from 'react-redux';
 import { mudarCarrinho, mudarQuantidade } from 'store/reducers/carrinho';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import Input from 'components/Input';
 
 const iconeProps = {
@@ -28,7 +28,7 @@ const quantidadeProps = {
   color: '#1875E8'
 }
 
-export default function Item(props) {
+function Item(props) {
   const {
     titulo,
     foto,
@@ -142,3 +142,5 @@ export default function Item(props) {
     </div>
   )
 }
+
+export default memo(Item);
