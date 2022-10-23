@@ -1,10 +1,12 @@
 import Button from 'components/Button';
 import Header from 'components/Header';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './Anuncie.module.scss';
 import { useForm } from 'react-hook-form';
+import { cadastrarItem } from 'store/reducers/itens';
 
 export default function Anuncie() {
+  const dispatch = useDispatch();
   const categorias = useSelector(state => state.categorias.map(({ nome, id }) => ({ nome, id })));
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -12,8 +14,8 @@ export default function Anuncie() {
     }
   });
 
-  function cadastrar(parametro) {
-    console.log('parametro: ', parametro);
+  function cadastrar(data) {
+    dispatch(cadastrarItem(data));
   }
 
   return (
