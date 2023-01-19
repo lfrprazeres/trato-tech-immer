@@ -77,10 +77,13 @@ function Item(props) {
     <div className={classNames(styles.item, {
       [styles.itemNoCarrinho]: carrinho,
     })}>
-      <AiFillCloseCircle
+     <AiFillCloseCircle
         {...iconeProps}
         className={`${styles['item-acao']} ${styles['item-deletar']}`}
-        onClick={() => dispatch(deletarItem(id))}
+        onClick={() => {
+          dispatch(deletarItem(id))
+          resolverCarrinho(id)
+        }}
       />
       <div className={styles['item-imagem']}>
         <img src={foto} alt={titulo} />
